@@ -39,7 +39,7 @@ namespace EmployeeApp.Pages.Employees
             }
 
             //TODO: fill in url
-            var response = await apiClient.GetAsync("");
+            var response = await apiClient.GetAsync("Employee");
             var dataString = await response.Content.ReadAsStringAsync();
             Employee = JsonSerializer.Deserialize<Employee>(dataString, jsonOption);
             

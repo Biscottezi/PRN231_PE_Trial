@@ -39,8 +39,7 @@ namespace EmployeeApp.Pages.Employees
                 return NotFound();
             }
 
-            //TODO: fill in url
-            var response = await apiClient.GetAsync("");
+            var response = await apiClient.GetAsync($"Employee/{id}");
             var dataString = await response.Content.ReadAsStringAsync();
             Employee = JsonSerializer.Deserialize<Employee>(dataString, jsonOption);
             
@@ -60,7 +59,7 @@ namespace EmployeeApp.Pages.Employees
             }
 
             //TODO: fill in url
-            await apiClient.DeleteAsync("");
+            await apiClient.DeleteAsync($"Employee/{id}");
 
             return RedirectToPage("./Index");
         }

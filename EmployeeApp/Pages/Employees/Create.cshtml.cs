@@ -33,8 +33,7 @@ namespace EmployeeApp.Pages.Employees
                 RedirectToPage("../Error");
             }
             
-            //TODO: fill in url
-            var responseD = await apiClient.GetAsync("");
+            var responseD = await apiClient.GetAsync("Department");
             var dataStringD = await responseD.Content.ReadAsStringAsync();
             var departments = JsonSerializer.Deserialize<IEnumerable<Department>>(dataStringD, jsonOption);
             ViewData["DepId"] = new SelectList(departments, "DepartmentId", "DepartmentName");
@@ -54,7 +53,7 @@ namespace EmployeeApp.Pages.Employees
             }
 
             //TODO: fill in url
-            await apiClient.PostAsJsonAsync("", Employee);
+            await apiClient.PostAsJsonAsync("Employee", Employee);
 
             return RedirectToPage("./Index");
         }

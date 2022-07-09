@@ -45,7 +45,7 @@ namespace EmployeeApp.Pages.Login
         public async Task<IActionResult> OnPostAsync()
         {
             //TODO: fill in url
-            var response = await apiClient.PostAsJsonAsync("", new LoginRequestModel()
+            var response = await apiClient.PostAsJsonAsync("Account/login", new LoginRequestModel()
             {
                 Id = this.Id,
                 Password = this.Password,
@@ -84,7 +84,7 @@ namespace EmployeeApp.Pages.Login
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                return RedirectToPage(""); //TODO: dien url
+                return RedirectToPage("Error"); //TODO: dien url
             }
 
             if (user.AccountRole == 1)
@@ -108,7 +108,7 @@ namespace EmployeeApp.Pages.Login
                     authProperties);
 
 
-                return RedirectToPage(""); //TODO: fill in url
+                return RedirectToPage("Employees/Index"); //TODO: fill in url
             }
             
             if (user.AccountRole == 3)
@@ -132,7 +132,7 @@ namespace EmployeeApp.Pages.Login
                     authProperties);
 
 
-                return RedirectToPage(""); //TODO: fill in url
+                return RedirectToPage("Error"); //TODO: fill in url
             }
             return Page();
         }

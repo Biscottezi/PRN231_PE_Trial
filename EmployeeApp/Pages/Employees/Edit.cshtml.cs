@@ -42,7 +42,7 @@ namespace EmployeeApp.Pages.Employees
             }
 
             //TODO: fill in url
-            var response = await apiClient.GetAsync("");
+            var response = await apiClient.GetAsync($"Employee/{id}");
             var dataString = await response.Content.ReadAsStringAsync();
             Employee = JsonSerializer.Deserialize<Employee>(dataString, jsonOption);
             
@@ -50,9 +50,8 @@ namespace EmployeeApp.Pages.Employees
             {
                 return NotFound();
             }
-           
             //TODO: fill in url
-            var responseD = await apiClient.GetAsync("");
+            var responseD = await apiClient.GetAsync("Department");
             var dataStringD = await responseD.Content.ReadAsStringAsync();
             var departments = JsonSerializer.Deserialize<IEnumerable<Department>>(dataStringD, jsonOption);
             ViewData["DepId"] = new SelectList(departments, "DepartmentId", "DepartmentName");
@@ -68,9 +67,6 @@ namespace EmployeeApp.Pages.Employees
             {
                 return Page();
             }
-
-            //TODO: fill in url
-            await apiClient.PutAsJsonAsync($"", Employee);
 
             return RedirectToPage("./Index");
         }

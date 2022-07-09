@@ -42,7 +42,7 @@ namespace EmployeeApp.Pages.Employees
             }
 
             //TODO: fill in url
-            string url = "";
+            string url = "Employee";
             url += $"?$filter=contains(FullName, '{searchString}') or contains(JobTitle, '{searchString}')";
             
             var response = await apiClient.GetAsync(url);

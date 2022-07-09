@@ -15,7 +15,7 @@ namespace EmployeeAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ODataController
+    public class AccountController : ControllerBase
     {
         private DepartmentEmployeeContext _dbContext;
         public AccountController(DepartmentEmployeeContext dbContext)
@@ -24,12 +24,11 @@ namespace EmployeeAPI.Controllers
         }
         // POST api/<EmployeeController>
         [HttpPost("login")]
-        [EnableQuery]
         public IActionResult Login([FromBody] LoginRequestModel model)
         {
             AccountRepo repo = new AccountRepo(_dbContext);
             var acc = repo.Get().Where(x => x.UserId == model.Id && x.AccountPassword == model.Password).FirstOrDefault();
-            if (acc==null)
+            if (acc == null)
             {
                 return Unauthorized();
             } else

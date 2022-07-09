@@ -84,7 +84,7 @@ namespace EmployeeApp.Pages.Login
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                return RedirectToPage("Error"); //TODO: dien url
+                return RedirectToPage("../Error"); //TODO: dien url
             }
 
             if (user.AccountRole == 1)
@@ -108,7 +108,7 @@ namespace EmployeeApp.Pages.Login
                     authProperties);
 
 
-                return RedirectToPage("Employees/Index"); //TODO: fill in url
+                return RedirectToPage("../Employees/Index"); //TODO: fill in url
             }
             
             if (user.AccountRole == 3)
@@ -132,7 +132,7 @@ namespace EmployeeApp.Pages.Login
                     authProperties);
 
 
-                return RedirectToPage("Error"); //TODO: fill in url
+                return RedirectToPage("../Error"); //TODO: fill in url
             }
             return Page();
         }

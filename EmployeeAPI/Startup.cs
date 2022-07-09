@@ -30,7 +30,7 @@ namespace EmployeeAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DepartmentEmployeeContext>(
-          options => options.UseSqlServer("server=localhost;database=DepartmentEmployee;user=SWP;password=SWPPassword"));
+          options => options.UseSqlServer("server=localhost;database=DepartmentEmployee;user=quannpm;password=admin"));
 
             services.AddControllers().AddOData(option => option.Select().Filter()
            .OrderBy().Expand().SetMaxTop(100).Count()

@@ -41,6 +41,7 @@ namespace EmployeeApp.Pages.Employees
                 RedirectToPage("../Error");
             }
 
+            SearchString = searchString;
             //TODO: fill in url
             string url = "Employee";
             url += $"?$filter=contains(FullName, '{searchString}') or contains(JobTitle, '{searchString}')";

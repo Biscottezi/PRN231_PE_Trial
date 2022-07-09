@@ -31,7 +31,7 @@ namespace EmployeeApp
             
             HttpClient apiClient = new HttpClient()
             {
-                BaseAddress = new Uri("https://localhost:44335/api/"),
+                BaseAddress = new Uri("http://localhost:5000/api/"),
             };
             apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             services.AddSingleton(apiClient);

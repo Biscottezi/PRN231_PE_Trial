@@ -15,7 +15,7 @@
     <div class="form-actions no-color">
         <p>
             Search: 
-            <input type="text" name="SearchName" value="@Model.SearchString"/><br/>
+            <input type="text" name="SearchString" value="@Model.SearchString"/><br/>
             <input type="submit" value="Search" class="btn btn-primary" />
             <a asp-page="./Index">Clear</a>
         </p>
@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.JobTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Department.DepartmentId)
+                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.EmployeeId">Edit</a> |

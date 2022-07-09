@@ -28,10 +28,10 @@ namespace EmployeeApp.Pages.Employees
         public IList<Employee> Employee { get;set; }
         
         public string SearchString { get; set; }
-        
-        public int pageIndex { get; set; }
-        
-        public int totalPage { get; set; }
+
+        public int pageIndex = 1;
+
+        public int totalPage = 1;
         
         public async Task OnGetAsync(string searchString)
         {
@@ -40,10 +40,12 @@ namespace EmployeeApp.Pages.Employees
             {
                 RedirectToPage("../Error");
             }
-            
-            
+
             //TODO: fill in url
-            var response = await apiClient.GetAsync("");
+            string url = "";
+            url += $"?$filter=contains(FullName, '{searchString}') or contains(JobTitle, '{searchString}')";
+            
+            var response = await apiClient.GetAsync(url);
             var dataString = await response.Content.ReadAsStringAsync();
             Employee = JsonSerializer.Deserialize<IEnumerable<Employee>>(dataString, jsonOption).ToList();
         }

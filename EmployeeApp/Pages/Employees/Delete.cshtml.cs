@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,11 +14,13 @@ namespace EmployeeApp.Pages.Employees
 {
     public class DeleteModel : PageModel
     {
-        private readonly DataAccess.Models.DepartmentEmployeeContext _context;
+        private readonly HttpClient apiClient;
+        private readonly JsonSerializerOptions jsonOption;
 
-        public DeleteModel(DataAccess.Models.DepartmentEmployeeContext context)
+        public DeleteModel(HttpClient apiClient, JsonSerializerOptions jsonOption)
         {
-            _context = context;
+            this.apiClient = apiClient;
+            this.jsonOption = jsonOption;
         }
 
         [BindProperty]
@@ -23,18 +28,27 @@ namespace EmployeeApp.Pages.Employees
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            var role = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+            if (role != "Admin")
+            {
+                RedirectToPage("../Error");
+            }
+            
             if (id == null)
             {
                 return NotFound();
             }
 
-            Employee = await _context.Employees
-                .Include(e => e.Department).FirstOrDefaultAsync(m => m.EmployeeId == id);
-
+            //TODO: fill in url
+            var response = await apiClient.GetAsync("");
+            var dataString = await response.Content.ReadAsStringAsync();
+            Employee = JsonSerializer.Deserialize<Employee>(dataString, jsonOption);
+            
             if (Employee == null)
             {
                 return NotFound();
             }
+            
             return Page();
         }
 
@@ -45,13 +59,8 @@ namespace EmployeeApp.Pages.Employees
                 return NotFound();
             }
 
-            Employee = await _context.Employees.FindAsync(id);
-
-            if (Employee != null)
-            {
-                _context.Employees.Remove(Employee);
-                await _context.SaveChangesAsync();
-            }
+            //TODO: fill in url
+            await apiClient.DeleteAsync("");
 
             return RedirectToPage("./Index");
         }

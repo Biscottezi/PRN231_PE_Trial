@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
+using BusinessObject.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,16 +16,29 @@ namespace EmployeeApp.Pages.Employees
 {
     public class CreateModel : PageModel
     {
-        private readonly DataAccess.Models.DepartmentEmployeeContext _context;
+        private readonly HttpClient apiClient;
+        private readonly JsonSerializerOptions jsonOption;
 
-        public CreateModel(DataAccess.Models.DepartmentEmployeeContext context)
+        public CreateModel(HttpClient apiClient, JsonSerializerOptions jsonOption)
         {
-            _context = context;
+            this.apiClient = apiClient;
+            this.jsonOption = jsonOption;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
-        ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId");
+            var role = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+            if (role != "Admin")
+            {
+                RedirectToPage("../Error");
+            }
+            
+            //TODO: fill in url
+            var responseD = await apiClient.GetAsync("");
+            var dataStringD = await responseD.Content.ReadAsStringAsync();
+            var departments = JsonSerializer.Deserialize<IEnumerable<Department>>(dataStringD, jsonOption);
+            ViewData["DepId"] = new SelectList(departments, "DepartmentId", "DepartmentName");
+            
             return Page();
         }
 
@@ -35,8 +53,8 @@ namespace EmployeeApp.Pages.Employees
                 return Page();
             }
 
-            _context.Employees.Add(Employee);
-            await _context.SaveChangesAsync();
+            //TODO: fill in url
+            await apiClient.PostAsJsonAsync("", Employee);
 
             return RedirectToPage("./Index");
         }

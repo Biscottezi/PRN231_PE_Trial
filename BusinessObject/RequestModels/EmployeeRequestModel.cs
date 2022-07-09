@@ -1,18 +1,9 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
 
-#nullable disable
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace DataAccess.Models
+namespace BusinessObject.RequestModels
 {
-    public partial class Employee
+    public class EmployeeRequestModel
     {
-        
-        public string EmployeeId { get; set; }
-        
         [Required]
         [MinLength(9)]
         public string FullName { get; set; }
@@ -26,7 +17,5 @@ namespace DataAccess.Models
         
         [Required]
         public string DepartmentId { get; set; }
-
-        public virtual Department Department { get; set; }
     }
 }
